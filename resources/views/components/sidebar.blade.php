@@ -16,7 +16,7 @@
             </li>
             <li class="{{ Request::is('water-usage*') ? 'active' : '' }}">
                 <a class="nav-link" href="{{ url('/water-usage') }}">
-                    <i class="fas fa-water"></i> <span>Pemakaian & Tagihan</span>
+                    <i class="fas fa-file-invoice-dollar"></i> <span>Pemakaian & Tagihan</span>
                 </a>
             </li>
 
@@ -26,9 +26,15 @@
                     <i class="fas fa-users-cog"></i> <span>Admin Dashboard</span>
                 </a>
             </li>
-            <li class="{{ Request::is('water-usage*') ? 'active' : '' }}">
-                <a class="nav-link" href="{{ url('/water-usage') }}">
-                    <i class="fas fa-chart-line"></i> <span>Monitoring Device</span>
+            <li class="menu-header">Monitoring Device</li>
+            <li class="{{ Request::is('device-list*') ? 'active' : '' }}">
+                <a class="nav-link" href="{{ url('/device-list') }}">
+                    <i class="fas fa-list-ul"></i> <span>Device List</span>
+                </a>
+            </li>
+            <li class="{{ Request::is('device-log*') ? 'active' : '' }}">
+                <a class="nav-link" href="{{ url('/device-log') }}">
+                    <i class="fas fa-chart-line"></i> <span>Monitoring Pemakaian</span>
                 </a>
             </li>
 
@@ -39,5 +45,6 @@
                 </a>
             </li>
         </ul>
+
     </aside>
 </div>

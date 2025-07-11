@@ -32,16 +32,15 @@
     </script>
     <!-- END GA -->
 </head>
-</head>
 
 <body>
     <div id="app">
         <div class="main-wrapper">
             <!-- Header -->
-            @include('components.header')
+            @include('components.user-header')
 
             <!-- Sidebar -->
-            @include('components.sidebar')
+            {{-- @include('components.sidebar') --}}
 
             <!-- Content -->
             @yield('main')

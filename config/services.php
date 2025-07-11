@@ -30,5 +30,11 @@ return [
         'secret' => env('AWS_SECRET_ACCESS_KEY'),
         'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
     ],
+    // firebase configuration
+    'firebase' => [
+        'url' => env('FIREBASE_URL'),
+        'secret' => env('FIREBASE_SECRET'),
+    ],
+
 
 ];

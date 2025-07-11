@@ -1,15 +1,38 @@
-@extends('layouts.app')
+@extends('layouts.user-app')
 
 @section('title', 'Blank Page')
 
 @push('style')
-    <!-- CSS Libraries -->
+    <style>
+        .main-wrapper {
+            padding-left: 0 !important;
+        }
+
+        .main-content {
+            padding: 80px 30px 0px 30px !important;
+        }
+
+
+        body.sidebar-gone .main-content {
+            margin-left: 0 !important;
+        }
+
+        .navbar {
+            left: 0 !important;
+        }
+
+        .section {
+            padding-left: 20px;
+            padding-right: 20px;
+        }
+    </style>
 @endpush
+
 
 @section('main')<div class="main-content">
         <section class="section">
             <div class="section-header">
-                <h1>Beranda</h1>
+                <h1>Home</h1>
             </div>
 
             <div class="section-body">
@@ -31,6 +54,7 @@
                 </div>
 
                 <!-- Card Section -->
+
                 <div class="row d-flex align-items-stretch">
                     <!-- Card 1 (Lebar 4/12) -->
                     <div class="col-md-4 mb-4">

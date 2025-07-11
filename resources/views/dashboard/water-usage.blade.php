@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.user-app')
 
 @section('title', 'Blank Page')
 
@@ -7,6 +7,29 @@
     <link rel="stylesheet" href="{{ asset('library/bootstrap-daterangepicker/daterangepicker.css') }}">
     <link rel="stylesheet" href="{{ asset('library/selectric/public/selectric.css') }}">
     <link rel="stylesheet" href="{{ asset('library/bootstrap-timepicker/css/bootstrap-timepicker.min.css') }}">
+    <style>
+        .main-wrapper {
+            padding-left: 0 !important;
+        }
+
+        .main-content {
+            padding: 80px 30px 0px 30px !important;
+        }
+
+
+        body.sidebar-gone .main-content {
+            margin-left: 0 !important;
+        }
+
+        .navbar {
+            left: 0 !important;
+        }
+
+        .section {
+            padding-left: 20px;
+            padding-right: 20px;
+        }
+    </style>
 @endpush
 
 @section('main')<div class="main-content">

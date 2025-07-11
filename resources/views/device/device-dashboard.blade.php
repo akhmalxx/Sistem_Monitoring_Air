@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Data User')
+@section('title', 'Daftar Device')
 
 @push('style')
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap4.min.css">
@@ -10,14 +10,14 @@
     <div class="main-content">
         <section class="section">
             <div class="section-header">
-                <h1>Data User</h1>
+                <h1>Daftar Device</h1>
             </div>
             <div class="section-body">
                 {{-- <div class="col"> --}}
                 <div class="card">
                     <div class="card-header">
                         <div>
-                            <a href="{{ route('user-management.create') }}" class="btn btn-primary">+ Tambah User</a>
+                            <a href="{{ route('device-list.create') }}" class="btn btn-primary">+ Tambah Device</a>
                         </div>
                     </div>
                     <div class="col">
@@ -27,29 +27,27 @@
                                     <thead>
                                         <tr>
                                             <th class="text-center">No.</th>
-                                            <th class="text-center">USERNAME</th>
-                                            <th class="text-center">NAMA</th>
-                                            <th class="text-center">EMAIL</th>
-                                            <th class="text-center">ROLE</th>
+                                            <th class="text-center">NAMA PENGGUNA</th>
+                                            <th class="text-center">API KEY</th>
+                                            <th class="text-center">FIREBASE URL</th>
                                             <th class="text-center">AKSI</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @forelse ($users as $user)
+                                        @forelse ($devices as $device)
                                             <tr>
                                                 <td class="text-center">{{ $loop->iteration }}.</td>
-                                                <td class="text-center">{{ $user->username }}</td>
-                                                <td class="text-center">{{ $user->name }}</td>
-                                                <td class="text-center">{{ $user->email }}</td>
-                                                <td class="text-center">{{ $user->role }}</td>
+                                                <td class="text-center">{{ $device->user->username }}</td>
+                                                <td class="text-center">{{ $device->apikey }}</td>
+                                                <td class="text-center">{{ $device->firebase_url }}</td>
                                                 <td class="text-center">
-                                                    <a href="{{ route('user-management.edit', $user->id) }}"
+                                                    <a href="{{ route('device-list.edit', $device->id) }}"
                                                         class="btn btn-action btn-primary" data-toggle="tooltip"
                                                         title="Edit">
                                                         <i class="fas fa-edit"></i>
                                                     </a>
 
-                                                    <form action="{{ route('user-management.destroy', $user->id) }}"
+                                                    <form action="{{ route('device-list.destroy', $device->id) }}"
                                                         class="d-inline-block" method="POST">
                                                         @csrf
                                                         @method('delete')
@@ -64,7 +62,7 @@
                                             </tr>
                                         @empty
                                             <tr>
-                                                <td colspan="6" class="text-center">Tidak Ada Data</td>
+                                                <td colspan="5" class="text-center">Tidak Ada Data</td>
                                             </tr>
                                         @endforelse
                                     </tbody>
