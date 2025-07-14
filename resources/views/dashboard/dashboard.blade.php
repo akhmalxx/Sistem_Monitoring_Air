@@ -4,6 +4,10 @@
 
 @push('style')
     <style>
+        .card-body {
+            font-size: 16px;
+        }
+
         .main-wrapper {
             padding-left: 0 !important;
         }
@@ -51,11 +55,33 @@
                             </div>
                         </div>
                     </div>
+                    <div class="card">
+                        <div class="card-header text-primary">
+                            <h3>Tentang</h3>
+                        </div>
+                        <div class="card-body">
+                            <p>Sistem Monitoring Air berbasis IoT ini merupakan proyek penelitian skripsi yang dirancang
+                                untuk memantau penggunaan air secara real-time menggunakan sensor dan teknologi Internet of
+                                Things (IoT). Sistem ini memungkinkan pelanggan maupun admin untuk mengakses informasi
+                                pemakaian air dan tagihan secara langsung melalui antarmuka berbasis web.</p>
+                            <p>Tujuan utama dari pengembangan sistem ini adalah untuk meningkatkan efisiensi pemantauan
+                                konsumsi air, mendorong kesadaran pengguna terhadap penggunaan air bersih, serta menyediakan
+                                data yang akurat dan terintegrasi guna mendukung pengambilan keputusan bagi instansi
+                                penyedia layanan air.</p>
+                            <p>Sistem ini dibangun dengan memanfaatkan sensor aliran air (flow sensor) yang terhubung dengan
+                                mikrokontroler, yang kemudian mengirimkan data secara otomatis ke server melalui koneksi
+                                internet. Data yang dikirim akan ditampilkan dalam bentuk grafik harian atau bulanan untuk
+                                memudahkan pengguna memahami tren konsumsi mereka.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div>
+                    
                 </div>
 
                 <!-- Card Section -->
-
-                <div class="row d-flex align-items-stretch">
+                {{-- <div class="row d-flex align-items-stretch">
                     <!-- Card 1 (Lebar 4/12) -->
                     <div class="col-md-4 mb-4">
                         <div class="card h-100">
@@ -80,7 +106,8 @@
                             </div>
                         </div>
                     </div>
-                </div>
+                </div> --}}
+
             </div>
 
 

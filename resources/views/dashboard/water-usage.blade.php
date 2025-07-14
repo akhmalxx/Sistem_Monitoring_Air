@@ -32,43 +32,91 @@
     </style>
 @endpush
 
-@section('main')<div class="main-content">
+@section('main')
+    <div class="main-content">
         <section class="section">
             <div class="section-header">
                 <h1>Monitoring Pemakaian dan Tagihan Air</h1>
             </div>
 
-            <div class="section-body">
-                <!-- Hero Section -->
-                <div class="row">
-                    <div class="col-12 mb-4">
-                        <div class="card">
-                            <div class="card-header">
-                                <h4>Cek Pemakaian dan Tagihan Air</h4>
-                            </div>
-                            <div class="card-body">
-                                <p>Masukkan tanggal pemakaian air yang ingin dilihat</p>
-                                <div class="form-group">
-                                    <label>Date</label>
-                                    <input type="date" class="form-control">
+            <div class="card">
+                <div class="card-header">
+                    <h4>Cek Pemakaian dan Tagihan Air</h4>
+                    <div class="card-header-action">
+                        <a data-collapse="#mycard-collapse-1" class="btn btn-icon btn-info" href="#"><i
+                                class="fas fa-minus"></i></a>
+                    </div>
+                </div>
+                <div class="collapse show" id="mycard-collapse-1">
+                    <div class="card-body">
+                        <div class="row d-flex align-items-stretch">
+                            <div class="col-md-4 mb-4">
+                                <div class="card h-100">
+                                    <div class="card-header">
+                                        <h4>Masukkan tanggal pemakaian air yang ingin dilihat</h4>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="form-group">
+                                            <label>Date</label>
+                                            <input type="date" class="form-control">
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="">
-                            <div class="card h-100">
-                                <div class="card-header">
-                                    <h4>Grafik Pemakaian Air (Date)</h4>
-                                </div>
-                                <div class="card-body">
-                                    <canvas id="myChart" height="50"></canvas>
+                            <div class="col-md-8 mb-4">
+                                <div class="card h-100">
+                                    <div class="card-header">
+                                        <h4>Grafik Pemakaian Air (Date)</h4>
+                                    </div>
+                                    <div class="card-body">
+                                        <canvas id="myChart" height="80"></canvas>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
+            </div>
 
+            <div class="card">
+                <div class="card-header">
+                    <h4>Cek Pemakaian Realtime</h4>
+                    <div class="card-header-action">
+                        <a data-collapse="#mycard-collapse-2" class="btn btn-icon btn-info" href="#"><i
+                                class="fas fa-minus"></i></a>
+                    </div>
+                </div>
+                <div class="collapse show" id="mycard-collapse-2">
+                    <div class="card-body">
+                        <div class="row d-flex align-items-stretch">
+                            <!-- Card 1 (Lebar 4/12) -->
+                            <div class="col-md-4 mb-4">
+                                <div class="card h-100">
+                                    <div class="card-header">
+                                        <h4>Data Realtime</h4>
+                                    </div>
+                                    <div class="card-body">
+                                        <p><strong>Flow Rate : 0 L/Min</strong></p>
+                                        <p><strong>Total Pemakaian : 0 L</strong></p>
+                                    </div>
+                                </div>
+                            </div>
 
-
+                            <!-- Card 2 (Lebar 8/12) -->
+                            <div class="col-md-8 mb-4">
+                                <div class="card h-100">
+                                    <div class="card-header">
+                                        <h4>Grafik Pemakaian Air (Realtime)</h4>
+                                    </div>
+                                    <div class="card-body">
+                                        <canvas id="myChart" height="80"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </section>
     </div>
 @endsection

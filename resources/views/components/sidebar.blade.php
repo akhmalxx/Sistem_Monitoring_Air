@@ -4,12 +4,17 @@
             <a href="{{ url('/dashboard') }}">Sistem Monitoring Air</a>
         </div>
         <div class="sidebar-brand sidebar-brand-sm">
-            <a href="{{ url('/dashboard') }}">=</a>
+            <a href="{{ url('/dashboard') }}">
+                <img src="{{ asset('img/Logord.png') }}" alt="logo" style="max-width: 60px; height: auto;"
+                    class="shadow-light rounded-circle">
+            </a>
         </div>
+
+
 
         <ul class="sidebar-menu">
             <li class="menu-header">Dashboard</li>
-            <li class="{{ Request::is('dashboard*') ? 'active' : '' }}">
+            {{-- <li class="{{ Request::is('dashboard*') ? 'active' : '' }}">
                 <a class="nav-link" href="{{ url('/dashboard') }}">
                     <i class="fas fa-home"></i> <span>Dashboard</span>
                 </a>
@@ -18,7 +23,7 @@
                 <a class="nav-link" href="{{ url('/water-usage') }}">
                     <i class="fas fa-file-invoice-dollar"></i> <span>Pemakaian & Tagihan</span>
                 </a>
-            </li>
+            </li> --}}
 
             {{-- Admin Dashboard --}}
             <li class="{{ Request::is('admin-dashboard*') ? 'active' : '' }}">

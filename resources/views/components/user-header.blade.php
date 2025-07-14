@@ -15,7 +15,7 @@
             </li>
             <li class="nav-item">
                 <a class="nav-link " href="{{ url('/water-usage') }}">
-                    Cek Meteran Air
+                    <i class="fas fa-money-check"> </i> Cek Meteran Air
                 </a>
             </li>
         </ul>

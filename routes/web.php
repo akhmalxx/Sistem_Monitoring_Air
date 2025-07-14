@@ -3,6 +3,9 @@
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\DeviceController;
 use App\Http\Controllers\DeviceLogController;
+use App\Http\Controllers\SensorController;
+
+use App\Services\FirebaseService;
 
 use App\Http\Controllers\Auth\LoginController;
 use Illuminate\Support\Facades\Auth;
@@ -26,6 +29,20 @@ Route::get('/login', function () {
 });
 Route::post('/login', [LoginController::class, 'login'])->name('login');
 Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
+
+Route::get('/sensor', [SensorController::class, 'index']);
+
+Route::get('/debug/firebase', function () {
+    $firebase = new FirebaseService(); // pakai default .env
+
+    $flow = $firebase->get('flowSensor/flowRate');
+    $total = $firebase->get('flowSensor/totalML');
+
+    return response()->json([
+        'flowRate' => $flow,
+        'totalML' => $total,
+    ]);
+});
 
 // Route::middleware(['auth', 'role.prefix'])->prefix('superadmin')->group(function () {
 Route::get('/dashboard', function () {
