@@ -59,6 +59,8 @@
                                         <div class="form-group">
                                             <label>Date</label>
                                             <input type="date" class="form-control">
+                                             <p></p>
+                                              <p><strong>Total Tagihan : Rp.</strong></p>
                                         </div>
                                     </div>
                                 </div>
@@ -80,7 +82,7 @@
 
             <div class="card">
                 <div class="card-header">
-                    <h4>Cek Pemakaian Realtime</h4>
+                    <h4>Cek Pemakaian Real-Time</h4>
                     <div class="card-header-action">
                         <a data-collapse="#mycard-collapse-2" class="btn btn-icon btn-info" href="#"><i
                                 class="fas fa-minus"></i></a>
@@ -93,11 +95,11 @@
                             <div class="col-md-4 mb-4">
                                 <div class="card h-100">
                                     <div class="card-header">
-                                        <h4>Data Realtime</h4>
+                                        <h4>Data Real-Time</h4>
                                     </div>
                                     <div class="card-body">
-                                        <p><strong>Flow Rate : 0 L/Min</strong></p>
-                                        <p><strong>Total Pemakaian : 0 L</strong></p>
+                                        <p><strong>Flow Rate : 0 ml/Min</strong></p>
+                                        <p><strong>Total Pemakaian : 0 ml</strong></p>
                                     </div>
                                 </div>
                             </div>
@@ -106,7 +108,7 @@
                             <div class="col-md-8 mb-4">
                                 <div class="card h-100">
                                     <div class="card-header">
-                                        <h4>Grafik Pemakaian Air (Realtime)</h4>
+                                        <h4>Grafik Pemakaian Air (Real-Time)</h4>
                                     </div>
                                     <div class="card-body">
                                         <canvas id="myChart" height="80"></canvas>

@@ -45,8 +45,8 @@
                     <div class="col-12 mb-4">
                         <div class="hero bg-primary text-white">
                             <div class="hero-inner">
-                                <h2>Welcome, tot!</h2>
-                                <p class="lead">Selamat Datang di Website Sistem Monitoring Air</p>
+                                <h2>Welcome</h2>
+                                <p class="lead">Sistem Monitoring Air</p>
                                 <div class="mt-4">
                                     <a href="/water-usage" class="btn btn-outline-white btn-lg btn-icon icon-left"><i
                                             class="fas fa-water"></i>
@@ -89,8 +89,8 @@
                                 <h4>Data Realtime</h4>
                             </div>
                             <div class="card-body">
-                                <p><strong>Flow Rate : 0 L/Min</strong></p>
-                                <p><strong>Total Pemakaian : 0 L</strong></p>
+                                <p><strong>Flow Rate : 0 ml/Min</strong></p>
+                                <p><strong>Total Pemakaian : 0 ml</strong></p>
                             </div>
                         </div>
                     </div>
