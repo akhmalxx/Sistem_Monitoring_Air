@@ -4,6 +4,7 @@
 
 @push('style')
     <!-- CSS Libraries -->
+
     <link rel="stylesheet" href="{{ asset('library/bootstrap-daterangepicker/daterangepicker.css') }}">
     <link rel="stylesheet" href="{{ asset('library/selectric/public/selectric.css') }}">
     <link rel="stylesheet" href="{{ asset('library/bootstrap-timepicker/css/bootstrap-timepicker.min.css') }}">
@@ -59,8 +60,8 @@
                                         <div class="form-group">
                                             <label>Date</label>
                                             <input type="date" class="form-control">
-                                             <p></p>
-                                              <p><strong>Total Tagihan : Rp.</strong></p>
+                                            <p></p>
+                                            <p><strong>Total Tagihan : Rp.</strong></p>
                                         </div>
                                     </div>
                                 </div>
@@ -111,7 +112,7 @@
                                         <h4>Grafik Pemakaian Air (Real-Time)</h4>
                                     </div>
                                     <div class="card-body">
-                                        <canvas id="myChart" height="80"></canvas>
+                                        <canvas id="MonthlyChart" height="80"></canvas>
                                     </div>
                                 </div>
                             </div>
@@ -163,4 +164,5 @@
             });
         });
     </script>
+
 @endpush

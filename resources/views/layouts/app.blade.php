@@ -31,8 +31,13 @@
         gtag('config', 'UA-94034622-3');
     </script>
     <!-- END GA -->
+
+    {{-- tambahan chartjs --}}
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    {{-- <script src="{{ asset('library/chart.js/dist/Chart.min.js') }}"></script> --}}
+    {{-- <script src="{{ asset('js/page/modules-chartjs.js') }}"></script> --}}
 </head>
-</head>
+
 
 <body>
     <div id="app">

@@ -55,60 +55,69 @@
                             </div>
                         </div>
                     </div>
-                    <div class="card">
-                        <div class="card-header text-primary">
-                            <h3>Tentang</h3>
-                        </div>
-                        <div class="card-body">
-                            <p>Sistem Monitoring Air berbasis IoT ini merupakan proyek penelitian skripsi yang dirancang
-                                untuk memantau penggunaan air secara real-time menggunakan sensor dan teknologi Internet of
-                                Things (IoT). Sistem ini memungkinkan pelanggan maupun admin untuk mengakses informasi
-                                pemakaian air dan tagihan secara langsung melalui antarmuka berbasis web.</p>
-                            <p>Tujuan utama dari pengembangan sistem ini adalah untuk meningkatkan efisiensi pemantauan
-                                konsumsi air, mendorong kesadaran pengguna terhadap penggunaan air bersih, serta menyediakan
-                                data yang akurat dan terintegrasi guna mendukung pengambilan keputusan bagi instansi
-                                penyedia layanan air.</p>
-                            <p>Sistem ini dibangun dengan memanfaatkan sensor aliran air (flow sensor) yang terhubung dengan
-                                mikrokontroler, yang kemudian mengirimkan data secara otomatis ke server melalui koneksi
-                                internet. Data yang dikirim akan ditampilkan dalam bentuk grafik harian atau bulanan untuk
-                                memudahkan pengguna memahami tren konsumsi mereka.</p>
-                        </div>
+                </div>
+                <div class="card">
+                    <div class="card-header text-primary">
+                        <h3>Tentang</h3>
+                    </div>
+                    <div class="card-body">
+                        <p>Sistem Monitoring Air berbasis IoT ini merupakan proyek penelitian skripsi yang dirancang
+                            untuk memantau penggunaan air secara real-time menggunakan sensor dan teknologi Internet of
+                            Things (IoT). Sistem ini memungkinkan pelanggan maupun admin untuk mengakses informasi
+                            pemakaian air dan tagihan secara langsung melalui antarmuka berbasis web.</p>
+                        <p>Tujuan utama dari pengembangan sistem ini adalah untuk meningkatkan efisiensi pemantauan
+                            konsumsi air, mendorong kesadaran pengguna terhadap penggunaan air bersih, serta menyediakan
+                            data yang akurat dan terintegrasi guna mendukung pengambilan keputusan bagi instansi
+                            penyedia layanan air.</p>
+                        <p>Sistem ini dibangun dengan memanfaatkan sensor aliran air (flow sensor) yang terhubung dengan
+                            mikrokontroler, yang kemudian mengirimkan data secara otomatis ke server melalui koneksi
+                            internet. Data yang dikirim akan ditampilkan dalam bentuk grafik harian atau bulanan untuk
+                            memudahkan pengguna memahami tren konsumsi mereka.</p>
                     </div>
                 </div>
-
-                <div>
-                    
-                </div>
-
-                <!-- Card Section -->
-                {{-- <div class="row d-flex align-items-stretch">
-                    <!-- Card 1 (Lebar 4/12) -->
-                    <div class="col-md-4 mb-4">
-                        <div class="card h-100">
-                            <div class="card-header">
-                                <h4>Data Realtime</h4>
-                            </div>
-                            <div class="card-body">
-                                <p><strong>Flow Rate : 0 ml/Min</strong></p>
-                                <p><strong>Total Pemakaian : 0 ml</strong></p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Card 2 (Lebar 8/12) -->
-                    <div class="col-md-8 mb-4">
-                        <div class="card h-100">
-                            <div class="card-header">
-                                <h4>Grafik Pemakaian Air (Realtime)</h4>
-                            </div>
-                            <div class="card-body">
-                                <canvas id="myChart" height="80"></canvas>
-                            </div>
-                        </div>
-                    </div>
-                </div> --}}
-
             </div>
+
+            <div class="section text-center mt-5">
+                <h2 class="text-primary font-weight-bold">Informasi Pelanggan dan Layanan</h2>
+                <div class="mx-auto mt-3 mb-4 bg-primary" style="width: 80px; height: 3px;"></div>
+
+                <div class="row justify-content-center">
+                    <!-- Informasi Tagihan Air -->
+                    <div class="col-md-3">
+                        <div class="card shadow-sm border-0 p-4">
+                            <div class="text-center text-primary mb-3">
+                                <i class="fas fa-calculator" style="font-size: 40px;"></i>
+                            </div>
+                            <h5 class="text-primary font-weight-bold" style="font-size: 24px;">Informasi Tagihan Air</h5>
+                            <p class="text-muted">Cek tagihan air anda untuk 1 bulan periode pemakaian terakhir</p>
+                        </div>
+                    </div>
+
+                    <!-- Call Center -->
+                    <div class="col-md-3">
+                        <div class="card shadow-sm border-0 p-4">
+                            <div class="text-center text-primary mb-3">
+                                <i class="fas fa-headphones" style="font-size: 40px;"></i>
+                            </div>
+                            <h5 class="text-primary font-weight-bold" style="font-size: 24px;">Call Center</h5>
+                            <p class="text-muted">Hubungi Call Center kami di<br>+62 878-0562-2615</p>
+                        </div>
+                    </div>
+
+                    <!-- Hubungi Kami -->
+                    <div class="col-md-3">
+                        <div class="card shadow-sm border-0 p-4">
+                            <div class="text-center text-primary mb-3">
+                                <i class="fab fa-whatsapp fa-9x" style="font-size: 40px;"></i>
+                            </div>
+                            <h5 class="text-primary font-weight-bold" style="font-size: 24px;">Hubungi Kami</h5>
+                            <p class="text-muted">Whatsapp pada nomor<br>+62 812-5620-1902</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
 
 
 

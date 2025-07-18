@@ -37,12 +37,31 @@ Route::get('/debug/firebase', function () {
 
     $flow = $firebase->get('flowSensor/flowRate');
     $total = $firebase->get('flowSensor/totalML');
+    $riwayat = $firebase->get('Riwayat'); // <--- ubah path di sini
+
+    // Optional: urutkan berdasarkan tanggal terbaru
+    if (is_array($riwayat)) {
+        krsort($riwayat);
+    }
 
     return response()->json([
         'flowRate' => $flow,
         'totalML' => $total,
+        'riwayat' => $riwayat,
     ]);
 });
+Route::get('/api/riwayat-air', function () {
+    $firebase = new FirebaseService();
+    $riwayat = $firebase->get('Riwayat');
+
+    // sort by tanggal ascending (optional)
+    ksort($riwayat);
+
+    return response()->json($riwayat);
+});
+
+
+
 
 // Route::middleware(['auth', 'role.prefix'])->prefix('superadmin')->group(function () {
 Route::get('/dashboard', function () {
@@ -58,7 +77,5 @@ Route::get('/admin-dashboard', function () {
 Route::resource('user-management', UserController::class);
 Route::resource('device-list', DeviceController::class);
 
-Route::get('/device-log', function () {
-    return view('device_log.device-log-dashboard');
-});
+Route::get('/device-log', [DeviceLogController::class, 'index'])->name('device.log');
 // });

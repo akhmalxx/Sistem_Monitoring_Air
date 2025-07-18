@@ -1,8 +1,8 @@
 <div class="navbar-bg"></div>
 <nav class="navbar navbar-expand-lg bg-primary">
-    <a class="navbar-brand" href="#">RD</a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText"
-        aria-expanded="false" aria-label="Toggle navigation">
+    <img src="{{ asset('img/Logord.png') }}" alt="logo" width="55" class="bg-light rounded-circle p-1">
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText"
+        aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarText">
@@ -22,7 +22,7 @@
 
 
         <span class="navbar-text">
-                Raihan Dwinanda Fahreza
+            Raihan Dwinanda Fahreza
         </span>
     </div>
 </nav>

@@ -17,10 +17,12 @@ class SensorController extends Controller
     {
         $flowRate = $this->firebase->get('flowSensor/flowRate');
         $totalML = $this->firebase->get('flowSensor/totalML');
+        $Riwayat = $this->firebase->get('flowSensor/Riwayat');
 
         return view('index-test', [
             'flowRate' => $flowRate,
-            'totalML' => $totalML
+            'totalML' => $totalML,
+            'Riwayat' => $Riwayat,
         ]);
     }
 }
