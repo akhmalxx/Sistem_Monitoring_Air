@@ -58,21 +58,29 @@
                                     </div>
                                     <div class="card-body">
                                         <div class="form-group">
-                                            <label>Date</label>
-                                            <input type="date" class="form-control">
-                                            <p></p>
-                                            <p><strong>Total Tagihan : Rp.</strong></p>
+                                            <form method="GET" class="mb-4" id="monthForm">
+                                                <label for="month">Pilih Bulan:</label>
+                                                <input type="month" name="month" id="month"
+                                                    value="{{ now()->format('Y-m') }}"
+                                                    class="form-control w-auto d-inline-block">
+                                            </form>
+
+
+
                                         </div>
+                                        <p> </p>
+                                        <p><strong>Total Tagihan : Rp.</strong></p>
                                     </div>
                                 </div>
                             </div>
                             <div class="col-md-8 mb-4">
                                 <div class="card h-100">
                                     <div class="card-header">
-                                        <h4>Grafik Pemakaian Air (Date)</h4>
+                                        <h4>Grafik Pemakaian Air <span id="bulanTerpilih"></span></h4>
+
                                     </div>
-                                    <div class="card-body">
-                                        <canvas id="myChart" height="80"></canvas>
+                                    <div class="card-body" style="height: 300px;">
+                                        <canvas id="historyChart" height="80"></canvas>
                                     </div>
                                 </div>
                             </div>
@@ -112,7 +120,7 @@
                                         <h4>Grafik Pemakaian Air (Real-Time)</h4>
                                     </div>
                                     <div class="card-body">
-                                        <canvas id="MonthlyChart" height="80"></canvas>
+                                        {{-- <canvas id="MonthlyChart" height="80"></canvas> --}}
                                     </div>
                                 </div>
                             </div>
@@ -138,31 +146,124 @@
     <script src="{{ asset('js/page/forms-advanced-forms.js') }}"></script>
     <script src="{{ asset('js/page/modules-chartjs.js') }}"></script>
 
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
-        $(document).ready(function() {
-            // Tombol Date Picker -> mengisi input datepicker
-            $('.daterange-btn').daterangepicker({
-                singleDatePicker: true,
-                showDropdowns: true,
-                maxDate: moment(), // Tidak bisa pilih lewat hari ini
-                locale: {
-                    format: 'YYYY-MM-DD'
+        document.addEventListener('DOMContentLoaded', function() {
+            const ctx = document.getElementById('historyChart').getContext('2d');
+            const monthInput = document.getElementById('month');
+            const totalTagihanEl = document.querySelector('#totalTagihan');
+
+            let chart;
+            const rawData = @json($history ?? []);
+
+            function updateChart(year, month) {
+                const daysInMonth = new Date(year, month, 0).getDate();
+                const labels = Array.from({
+                    length: daysInMonth
+                }, (_, i) => {
+                    const day = (i + 1).toString().padStart(2, '0');
+                    const date = new Date(`${year}-${month}-01`);
+                    return `${day} ${date.toLocaleString('default', { month: 'short' })}`;
+                });
+
+                const fullDateMap = {};
+                for (let i = 1; i <= daysInMonth; i++) {
+                    const day = i.toString().padStart(2, '0');
+                    const key = `${day}-${month}-${year}`;
+                    fullDateMap[key] = 0;
                 }
-            }, function(start, end, label) {
-                // Set nilai input di bawahnya
-                $('.datepicker').val(start.format('YYYY-MM-DD'));
+
+                let total = 0;
+
+                for (const key in rawData) {
+                    const [day, mon, yr] = key.split('-');
+                    if (mon === month && yr === year) {
+                        const numericValue = parseFloat(rawData[key]);
+                        fullDateMap[key] = numericValue;
+                        total += numericValue;
+                    }
+                }
+
+                const values = Object.values(fullDateMap);
+
+                if (chart) chart.destroy();
+
+                chart = new Chart(ctx, {
+                    type: 'line',
+                    data: {
+                        labels: labels,
+                        datasets: [{
+                            label: 'Penggunaan Air (mL)',
+                            data: values,
+                            backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                            borderColor: '#007bff',
+                            borderWidth: 2,
+                            tension: 0.3,
+                            fill: true,
+                            pointRadius: 3,
+                            pointBackgroundColor: '#007bff'
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        scales: {
+                            x: {
+                                title: {
+                                    display: true,
+                                    text: 'Tanggal'
+                                }
+                            },
+                            y: {
+                                min: 0,
+                                title: {
+                                    display: true,
+                                    text: 'Jumlah (mL)'
+                                }
+                            }
+                        },
+                        plugins: {
+                            legend: {
+                                display: true
+                            },
+                            tooltip: {
+                                mode: 'index',
+                                intersect: false
+                            }
+                        }
+                    }
+                });
+
+                // Update total tagihan jika elemen ada
+                if (totalTagihanEl) {
+                    totalTagihanEl.textContent = 'Rp. ' + formatRupiah(total);
+                }
+                // Update teks bulan di judul chart
+                const bulanLabel = new Date(`${year}-${month}-01`).toLocaleString('id-ID', {
+                    month: 'long',
+                    year: 'numeric'
+                });
+                document.getElementById('bulanTerpilih').textContent = bulanLabel.charAt(0).toUpperCase() +
+                    bulanLabel.slice(1);
+
+            }
+
+            function formatRupiah(angka) {
+                return angka.toLocaleString('id-ID', {
+                    minimumFractionDigits: 0
+                });
+            }
+
+            // Inisialisasi awal chart
+            const [initYear, initMonth] = monthInput.value.split('-');
+            updateChart(initYear, initMonth);
+
+            // Update chart ketika bulan diubah
+            monthInput.addEventListener('change', function() {
+                const [year, month] = this.value.split('-');
+                updateChart(year, month);
             });
 
-            // Inisialisasi ulang datepicker input untuk batasan hari ini juga (optional)
-            $('.datepicker').daterangepicker({
-                singleDatePicker: true,
-                showDropdowns: true,
-                maxDate: moment(),
-                locale: {
-                    format: 'YYYY-MM-DD'
-                }
-            });
         });
     </script>
-
 @endpush

@@ -13,6 +13,7 @@ class Device extends Model
         'user_id',
         'apikey',
         'firebase_url',
+        'secret',
     ];
 
     /**

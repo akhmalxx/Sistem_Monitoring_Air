@@ -36,6 +36,10 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     {{-- <script src="{{ asset('library/chart.js/dist/Chart.min.js') }}"></script> --}}
     {{-- <script src="{{ asset('js/page/modules-chartjs.js') }}"></script> --}}
+    <!-- IziToast CSS -->
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/izitoast/dist/css/iziToast.min.css">
+
 </head>
 
 
@@ -67,7 +71,7 @@
 
     {{-- custom --}}
     <script src="{{ asset('library/chart.js/dist/Chart.min.js') }}"></script>
-
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <!-- Page Specific JS File -->
     <script src="{{ asset('js/page/modules-chartjs.js') }}"></script>
 
@@ -76,6 +80,56 @@
     <!-- Template JS File -->
     <script src="{{ asset('js/scripts.js') }}"></script>
     <script src="{{ asset('js/custom.js') }}"></script>
+
+    <!-- IziToast JS -->
+    <script src="https://cdn.jsdelivr.net/npm/izitoast/dist/js/iziToast.min.js"></script>
+
+    <script>
+        @if (session('success'))
+            iziToast.success({
+                title: 'Berhasil',
+                message: "{{ session('success') }}",
+                position: 'topRight'
+            });
+        @endif
+
+        @if (session('error'))
+            iziToast.error({
+                title: 'Gagal',
+                message: "{{ session('error') }}",
+                position: 'topRight'
+            });
+        @endif
+
+        @if (session('info'))
+            iziToast.info({
+                title: 'Info',
+                message: "{{ session('info') }}",
+                position: 'topRight'
+            });
+        @endif
+
+        @if (session('warning'))
+            iziToast.warning({
+                title: 'Peringatan',
+                message: "{{ session('warning') }}",
+                position: 'topRight'
+            });
+        @endif
+    </script>
+    <script>
+        @if ($errors->any())
+            @foreach ($errors->all() as $error)
+                iziToast.error({
+                    title: 'Validasi Gagal',
+                    message: "{{ $error }}",
+                    position: 'topRight'
+                });
+            @endforeach
+        @endif
+    </script>
+
+
 </body>
 
 </html>

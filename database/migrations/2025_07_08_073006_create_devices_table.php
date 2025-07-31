@@ -13,6 +13,7 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->string('apikey')->unique();
             $table->string('firebase_url');
+            $table->string('secret')->nullable();
             $table->timestamps();
         });
     }

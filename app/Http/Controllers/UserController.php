@@ -4,16 +4,19 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\User;
+use App\Models\Device;
 
 class UserController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
+
     public function index()
     {
         $users = User::all();
-        return view('admin-dashboard.user-dashboard', compact('users'));
+        $activeUserIds = Device::pluck('user_id')->toArray();
+        return view('admin-dashboard.user-dashboard', compact('users', 'activeUserIds'));
     }
 
     /**

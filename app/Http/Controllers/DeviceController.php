@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Device;
 use App\Models\User;
+use App\Services\FirebaseService;
 use Illuminate\Http\Request;
 
 class DeviceController extends Controller
@@ -11,9 +12,10 @@ class DeviceController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
         $devices = Device::all();
+
         return view('device.device-dashboard', compact('devices'));
     }
 
@@ -23,7 +25,8 @@ class DeviceController extends Controller
     public function create()
     {
         $users = User::all();
-        return view('device.create-device', compact('users'));
+        $usedUserIds = Device::pluck('user_id')->toArray();
+        return view('device.create-device', compact('users', 'usedUserIds'));
     }
 
     /**
@@ -34,7 +37,9 @@ class DeviceController extends Controller
         $validated = $request->validate([
             'user_id' => 'required|exists:users,id',
             'apikey' => 'required|string|unique:devices',
+            'secret' => 'nullable|string',
             'firebase_url' => 'required|url',
+
         ]);
         // dd($validated);
         Device::create($validated);
@@ -56,7 +61,7 @@ class DeviceController extends Controller
     public function edit(Device $device)
     {
         $users = User::all();
-        return view('devices.edit', compact('device', 'users'));
+        return view('device.edit-device', compact('device', 'users'));
     }
 
     /**
@@ -67,12 +72,14 @@ class DeviceController extends Controller
         $validated = $request->validate([
             'user_id' => 'required|exists:users,id',
             'apikey' => 'required|string|unique:devices,apikey,' . $device->id,
+            'secret' => 'nullable|string',
             'firebase_url' => 'required|url',
         ]);
 
         $device->update($validated);
 
-        return redirect()->route('device-list.index')->with('success', 'Device updated successfully.');
+        return redirect()->route('device-list.index')
+            ->with('success', 'Device updated successfully.');
     }
 
     /**
@@ -84,5 +91,24 @@ class DeviceController extends Controller
         $device->delete();
 
         return redirect()->route('device-list.index')->with('success', 'Device deleted successfully.');
+    }
+
+    public function selectFirebase()
+    {
+        $device = Device::find(2);
+
+        if (!$device) {
+            return 'Device tidak ditemukan.';
+        }
+
+        $firebase = new FirebaseService($device->firebase_url, $device->secret);
+
+        $flowData = $firebase->get('flowSensor');
+        $history = $firebase->get('Riwayat');
+
+        dd([
+            'flowData' => $flowData,
+            'history' => $history,
+        ]);
     }
 }

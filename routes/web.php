@@ -1,10 +1,12 @@
 <?php
 
+use App\Http\Controllers\AdminDashboardController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\DeviceController;
 use App\Http\Controllers\DeviceLogController;
 use App\Http\Controllers\SensorController;
 
+use App\Models\Device;
 use App\Services\FirebaseService;
 
 use App\Http\Controllers\Auth\LoginController;
@@ -27,9 +29,31 @@ Route::redirect('/', '/login');
 Route::get('/login', function () {
     return view('auth.auth-login',);
 });
+Route::get('/register', [LoginController::class, 'showRegisterForm'])->name('register');
+Route::post('/register', [LoginController::class, 'register']);
+
 Route::post('/login', [LoginController::class, 'login'])->name('login');
 Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
 
+Route::middleware(['auth', 'role:User,SuperAdmin'])->group(function () {
+    Route::get('/dashboard', function () {
+        return view('dashboard.dashboard', ['type_menu' => 'dashboard']);
+    });
+
+    Route::get('/water-usage', [DeviceLogController::class, 'showRiwayat'])->name('user.riwayat');
+});
+
+Route::middleware(['auth', 'role:Admin,SuperAdmin'])->group(function () {
+    Route::get('/admin-dashboard', [AdminDashboardController::class, 'index']);
+    Route::resource('user-management', UserController::class);
+    Route::resource('device-list', DeviceController::class)->parameters([
+        'device-list' => 'device'
+    ]);
+    Route::get('/device-log', [DeviceLogController::class, 'index'])->name('device.log');
+    Route::get('/select-device', [DeviceController::class, 'selectFirebase'])->name('device.select');
+});
+
+// Route debug
 Route::get('/sensor', [SensorController::class, 'index']);
 
 Route::get('/debug/firebase', function () {
@@ -59,23 +83,4 @@ Route::get('/api/riwayat-air', function () {
 
     return response()->json($riwayat);
 });
-
-
-
-
-// Route::middleware(['auth', 'role.prefix'])->prefix('superadmin')->group(function () {
-Route::get('/dashboard', function () {
-    return view('dashboard.dashboard', ['type_menu' => 'dashboard']);
-});
-Route::get('/water-usage', function () {
-    return view('dashboard.water-usage', ['type_menu' => 'dashboard']);
-});
-Route::get('/admin-dashboard', function () {
-    return view('admin-dashboard.admin-dashboard', ['type_menu' => 'dashboard']);
-});
-
-Route::resource('user-management', UserController::class);
-Route::resource('device-list', DeviceController::class);
-
-Route::get('/device-log', [DeviceLogController::class, 'index'])->name('device.log');
-// });
+Route::get('/test-firebase', [DeviceController::class, 'selectFirebase']);

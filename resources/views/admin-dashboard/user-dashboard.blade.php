@@ -31,6 +31,7 @@
                                             <th class="text-center">NAMA</th>
                                             <th class="text-center">EMAIL</th>
                                             <th class="text-center">ROLE</th>
+                                            <th class="text-center">STATUS</th>
                                             <th class="text-center">AKSI</th>
                                         </tr>
                                     </thead>
@@ -42,6 +43,13 @@
                                                 <td class="text-center">{{ $user->name }}</td>
                                                 <td class="text-center">{{ $user->email }}</td>
                                                 <td class="text-center">{{ $user->role }}</td>
+                                                <td class="text-center">
+                                                    @if (in_array($user->id, $activeUserIds))
+                                                        <span class="badge badge-success">Active</span>
+                                                    @else
+                                                        <span class="badge badge-danger">Not Active</span>
+                                                    @endif
+                                                </td>
                                                 <td class="text-center">
                                                     <a href="{{ route('user-management.edit', $user->id) }}"
                                                         class="btn btn-action btn-primary" data-toggle="tooltip"

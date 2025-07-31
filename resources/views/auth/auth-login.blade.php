@@ -9,7 +9,7 @@
 
 @section('main')
     <div class="card card-primary">
-        <div class="card-header">
+        <div class="card-header d-flex justify-content-center">
             <h4>Login</h4>
         </div>
 
@@ -41,6 +41,9 @@
                     </button>
                 </div>
             </form>
+            <div class="form-group text-center">
+                <a class="btn btn-danger btn-lg btn-block" tabindex="4" href="{{ route('register') }}">Sign Up</a>
+            </div>
         </div>
     </div>
 

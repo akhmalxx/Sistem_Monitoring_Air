@@ -1,34 +1,37 @@
 <?php
 
-namespace App\Services; // <== Nama namespace Laravel sesuai struktur folder
+namespace App\Services;
+
+use Illuminate\Support\Facades\Http;
+use App\Models\Device;
 use Illuminate\Support\Facades\Log;
+
 
 class FirebaseService
 {
     private $baseUrl;
     private $secret;
 
-    /**
-     * Constructor dengan parameter opsional, agar bisa digunakan dinamis
-     */
     public function __construct($baseUrl = null, $secret = null)
     {
+        // Pastikan base URL diakhiri dengan slash
         $this->baseUrl = rtrim($baseUrl ?: config('services.firebase.url'), '/') . '/';
         $this->secret = $secret ?? config('services.firebase.secret');
     }
 
-    /**
-     * @param string
-     */
     public function get($path)
     {
-        $url = $this->baseUrl . $path . '.json';
+        // Pastikan path tidak diawali dengan slash
+        $url = $this->baseUrl . ltrim($path, '/') . '.json';
 
         if (!empty($this->secret)) {
             $url .= '?auth=' . $this->secret;
         }
 
-        // cURL untuk GET request
+        // Debug log URL
+        Log::info("Request Firebase URL: $url");
+
+        // cURL GET
         $curl = curl_init();
         curl_setopt($curl, CURLOPT_URL, $url);
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
@@ -39,22 +42,16 @@ class FirebaseService
         curl_close($curl);
 
         if ($err) {
-            Log::error("Firebase Error: $err");
+            Log::error("Firebase GET Error: $err");
             return null;
         }
 
-        return json_decode($response, true); // Kembalikan data sebagai array/objek
+        return json_decode($response, true);
     }
 
-    /**
-     * Mengirim data ke Firebase (PUT untuk replace / POST untuk append)
-     * @param string $path path node tujuan
-     * @param mixed $data data yang akan dikirim
-     * @param string $method 'PUT' atau 'POST'
-     */
     public function set($path, $data, $method = 'PUT')
     {
-        $url = $this->baseUrl . $path . '.json';
+        $url = $this->baseUrl . ltrim($path, '/') . '.json';
 
         if (!empty($this->secret)) {
             $url .= '?auth=' . $this->secret;
@@ -62,7 +59,6 @@ class FirebaseService
 
         $jsonData = json_encode($data);
 
-        // cURL untuk POST/PUT request
         $curl = curl_init();
         curl_setopt($curl, CURLOPT_URL, $url);
         curl_setopt($curl, CURLOPT_CUSTOMREQUEST, $method);
@@ -72,16 +68,17 @@ class FirebaseService
             'Content-Type: application/json',
             'Content-Length: ' . strlen($jsonData)
         ]);
+        curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
 
         $response = curl_exec($curl);
         $err = curl_error($curl);
         curl_close($curl);
 
         if ($err) {
-            Log::error("Firebase Error: $err");
+            Log::error("Firebase SET Error: $err");
             return null;
         }
 
-        return json_decode($response, true); // Kembalikan response Firebase
+        return json_decode($response, true);
     }
 }
