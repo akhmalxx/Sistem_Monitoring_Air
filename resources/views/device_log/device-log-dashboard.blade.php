@@ -210,7 +210,6 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            const flowRateDisplay = document.getElementById('flowRate');
             const totalMLDisplay = document.getElementById('totalML');
             const ctx = document.getElementById('realtimeChart')?.getContext('2d');
             const deviceSelect = document.getElementById('deviceSelect');
@@ -223,18 +222,18 @@
             const chartData = {
                 labels: [],
                 datasets: [{
-                    label: 'Flow Rate (L/min)',
+                    label: 'Total Air (mL)',
                     data: [],
-                    borderColor: 'rgba(0, 123, 255, 1)',
-                    backgroundColor: 'rgba(0, 123, 255, 0.1)',
+                    borderColor: 'rgba(40, 167, 69, 1)', // green
+                    backgroundColor: 'rgba(40, 167, 69, 0.1)',
                     fill: true,
                     tension: 0.3,
                     pointRadius: 3,
-                    pointBackgroundColor: '#007bff'
+                    pointBackgroundColor: '#28a745'
                 }]
             };
 
-            const flowChart = new Chart(ctx, {
+            const totalChart = new Chart(ctx, {
                 type: 'line',
                 data: chartData,
                 options: {
@@ -252,7 +251,7 @@
                             beginAtZero: true,
                             title: {
                                 display: true,
-                                text: 'L/min'
+                                text: 'mL'
                             }
                         }
                     },
@@ -268,35 +267,51 @@
                 }
             });
 
-            function fetchAndUpdateChart() {
-                const deviceId = deviceSelect?.value;
-                if (!deviceId) return;
+            let currentDeviceId = deviceSelect?.value;
+            let lastTotalML = null;
 
-                fetch(`/device/realtime-data/${deviceId}`)
+            function fetchAndUpdateTotalML() {
+                if (!currentDeviceId) return;
+
+                fetch(`/device/realtime-data/${currentDeviceId}`)
                     .then(response => response.json())
-                    .then(flowData => {
-                        const now = new Date().toLocaleTimeString();
+                    .then(data => {
+                        const totalML = parseFloat(data.totalML || 0);
 
-                        const flowRate = parseFloat(flowData.flowRate || 0);
-                        const totalML = parseFloat(flowData.totalML || 0);
-
-                        if (flowRateDisplay) flowRateDisplay.textContent = flowRate.toFixed(1);
+                        // update tampilan angka
                         if (totalMLDisplay) totalMLDisplay.textContent = totalML.toFixed(0);
 
-                        if (chartData.labels.length >= 10) {
-                            chartData.labels.shift();
-                            chartData.datasets[0].data.shift();
+                        // hanya update grafik jika totalML berubah
+                        if (totalML !== lastTotalML) {
+                            const now = new Date().toLocaleTimeString();
+
+                            if (chartData.labels.length >= 10) {
+                                chartData.labels.shift();
+                                chartData.datasets[0].data.shift();
+                            }
+
+                            chartData.labels.push(now);
+                            chartData.datasets[0].data.push(totalML);
+                            totalChart.update();
+
+                            lastTotalML = totalML; // simpan nilai terakhir
                         }
-
-                        chartData.labels.push(now);
-                        chartData.datasets[0].data.push(flowRate);
-
-                        flowChart.update();
+                    })
+                    .catch(error => {
+                        console.error('Gagal fetch data:', error);
                     });
             }
 
-            fetchAndUpdateChart();
-            setInterval(fetchAndUpdateChart, 2000);
+            // Jalankan polling tiap 2 detik
+            const intervalId = setInterval(fetchAndUpdateTotalML, 2000);
+            fetchAndUpdateTotalML(); // pertama kali
+
+            // Ganti device -> reload halaman
+            if (deviceSelect) {
+                deviceSelect.addEventListener('change', function() {
+                    window.location.href = `?device_id=${this.value}`;
+                });
+            }
         });
     </script>
 @endpush
