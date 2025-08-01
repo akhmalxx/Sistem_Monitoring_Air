@@ -18,6 +18,7 @@ class DeviceLogController extends Controller
         $flowData = null;
         $history = null;
         // dd('devices', $devices);
+        // dd('flowData', $flowData);
 
         $deviceId = $request->input('device_id');
         if ($deviceId) {
@@ -34,6 +35,28 @@ class DeviceLogController extends Controller
 
         return view('device_log.device-log-dashboard', compact('devices', 'device', 'flowData', 'history'));
     }
+    public function getRealtimeData($id)
+    {
+        $device = Device::findOrFail($id);
+
+        // Ambil data dari Firebase, bukan dari database
+        $firebase = new FirebaseService($device->firebase_url, $device->secret);
+        $flowData = $firebase->get('flowSensor');
+
+        if (!$flowData || !isset($flowData['flowRate'], $flowData['totalML'])) {
+            return response()->json([
+                'flowRate' => 0,
+                'totalML' => 0,
+            ]);
+        }
+
+        return response()->json([
+            'flowRate' => floatval($flowData['flowRate']),
+            'totalML' => floatval($flowData['totalML']),
+        ]);
+    }
+
+
 
     public function showRiwayat(Request $request)
     {

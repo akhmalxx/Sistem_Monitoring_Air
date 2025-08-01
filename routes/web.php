@@ -55,6 +55,8 @@ Route::middleware(['auth', 'role:Admin,SuperAdmin'])->group(function () {
 
 // Route debug
 Route::get('/sensor', [SensorController::class, 'index']);
+Route::get('/device/realtime-data/{id}', [DeviceLogController::class, 'getRealtimeData']);
+
 
 Route::get('/debug/firebase', function () {
     $firebase = new FirebaseService(); // pakai default .env

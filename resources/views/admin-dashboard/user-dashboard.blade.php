@@ -36,9 +36,11 @@
                                         </tr>
                                     </thead>
                                     <tbody>
+                                        @php $no = 1; @endphp
                                         @forelse ($users as $user)
+                                            @continue($user->role === 'SuperAdmin')
                                             <tr>
-                                                <td class="text-center">{{ $loop->iteration }}.</td>
+                                                <td class="text-center">{{ $no++ }}.</td>
                                                 <td class="text-center">{{ $user->username }}</td>
                                                 <td class="text-center">{{ $user->name }}</td>
                                                 <td class="text-center">{{ $user->email }}</td>
@@ -68,13 +70,13 @@
                                                         </button>
                                                     </form>
                                                 </td>
-
                                             </tr>
                                         @empty
                                             <tr>
-                                                <td colspan="6" class="text-center">Tidak Ada Data</td>
+                                                <td colspan="7" class="text-center">Tidak Ada Data</td>
                                             </tr>
                                         @endforelse
+
                                     </tbody>
                                 </table>
                             </div>

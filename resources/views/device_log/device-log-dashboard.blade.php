@@ -10,7 +10,7 @@
     <div class="main-content">
         <section class="section">
             <div class="section-header">
-                <h1>Blank Page</h1>
+                <h1>Monitoring Pemakaian Air</h1>
             </div>
         </section>
         <div class="row">
@@ -20,7 +20,7 @@
                     <div class="col-md-4 mb-2 d-flex">
                         <div class="card w-100 d-flex flex-column">
                             <div class="card-header">
-                                <h4>Card Action Button</h4>
+                                <h4>Pilih Device dan Bulan untuk melihat pemakaian air</h4>
                             </div>
 
                             <div class="card-body flex-grow-1">
@@ -65,7 +65,7 @@
                     <div class="col-md-8 mb-2 d-flex">
                         <div class="card w-100 d-flex flex-column">
                             <div class="card-header">
-                                <h4>Grafik Pemakaian Air</h4>
+                                <h4>Grafik Pemakaian Air Realtime</h4>
                             </div>
 
                             <div class="card-body flex-grow-1">
@@ -77,7 +77,7 @@
 
                 <div class="card w-100 d-flex flex-column">
                     <div class="card-header">
-                        <h4>Grafik Pemakaian Air</h4>
+                        <h4>Grafik Pemakaian Air <span id="selectedMonthLabel"></span></h4>
                     </div>
 
                     <div class="card-body flex-grow-1">
@@ -126,7 +126,13 @@
                     }
                 }
 
-                const values = Object.values(fullDateMap);
+                const orderedKeys = Object.keys(fullDateMap).sort((a, b) => {
+                    const [da, ma, ya] = a.split('-').map(Number);
+                    const [db, mb, yb] = b.split('-').map(Number);
+                    return new Date(ya, ma - 1, da) - new Date(yb, mb - 1, db);
+                });
+                const values = orderedKeys.map(k => fullDateMap[k]);
+
 
                 if (chart) chart.destroy();
 
@@ -175,6 +181,15 @@
                         }
                     }
                 });
+                const selectedMonthLabel = document.getElementById('selectedMonthLabel');
+                if (selectedMonthLabel) {
+                    const monthName = new Date(`${year}-${month}-01`).toLocaleString('default', {
+                        month: 'long',
+                        year: 'numeric'
+                    });
+                    selectedMonthLabel.textContent = monthName;
+                }
+
             }
 
             // Jalankan chart pertama kali
@@ -191,20 +206,19 @@
 
 
     {{-- realtime graph --}}
-    <script>
-        const flowData = @json($flowData ?? ['flowRate' => 0, 'totalML' => 0]);
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
+    <script>
         document.addEventListener('DOMContentLoaded', function() {
             const flowRateDisplay = document.getElementById('flowRate');
             const totalMLDisplay = document.getElementById('totalML');
-
             const ctx = document.getElementById('realtimeChart')?.getContext('2d');
+            const deviceSelect = document.getElementById('deviceSelect');
+
             if (!ctx) {
                 console.error('Elemen <canvas id="realtimeChart"> tidak ditemukan.');
                 return;
             }
-
-            Chart.defaults.font.family = 'Poppins';
 
             const chartData = {
                 labels: [],
@@ -254,31 +268,35 @@
                 }
             });
 
-            function updateChart() {
-                const now = new Date().toLocaleTimeString();
+            function fetchAndUpdateChart() {
+                const deviceId = deviceSelect?.value;
+                if (!deviceId) return;
 
-                const flowRate = parseFloat(flowData.flowRate || 0);
-                const totalML = parseFloat(flowData.totalML || 0);
+                fetch(`/device/realtime-data/${deviceId}`)
+                    .then(response => response.json())
+                    .then(flowData => {
+                        const now = new Date().toLocaleTimeString();
 
-                // Update teks
-                if (flowRateDisplay) flowRateDisplay.textContent = flowRate.toFixed(1);
-                if (totalMLDisplay) totalMLDisplay.textContent = totalML.toFixed(0);
+                        const flowRate = parseFloat(flowData.flowRate || 0);
+                        const totalML = parseFloat(flowData.totalML || 0);
 
-                // Update chart
-                if (chartData.labels.length >= 10) {
-                    chartData.labels.shift();
-                    chartData.datasets[0].data.shift();
-                }
+                        if (flowRateDisplay) flowRateDisplay.textContent = flowRate.toFixed(1);
+                        if (totalMLDisplay) totalMLDisplay.textContent = totalML.toFixed(0);
 
-                chartData.labels.push(now);
-                chartData.datasets[0].data.push(flowRate);
+                        if (chartData.labels.length >= 10) {
+                            chartData.labels.shift();
+                            chartData.datasets[0].data.shift();
+                        }
 
-                flowChart.update();
+                        chartData.labels.push(now);
+                        chartData.datasets[0].data.push(flowRate);
+
+                        flowChart.update();
+                    });
             }
 
-            updateChart();
-
-            setInterval(updateChart, 2000);
+            fetchAndUpdateChart();
+            setInterval(fetchAndUpdateChart, 2000);
         });
     </script>
 @endpush
