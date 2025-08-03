@@ -35,11 +35,14 @@ class DeviceLogController extends Controller
 
         return view('device_log.device-log-dashboard', compact('devices', 'device', 'flowData', 'history'));
     }
-    public function getRealtimeData($id)
+    public function getRealtimeData($id = null)
     {
-        $device = Device::findOrFail($id);
+        if ($id) {
+            $device = Device::findOrFail($id);
+        } else {
+            $device = Device::where('user_id', auth()->id())->firstOrFail();
+        }
 
-        // Ambil data dari Firebase, bukan dari database
         $firebase = new FirebaseService($device->firebase_url, $device->secret);
         $flowData = $firebase->get('flowSensor');
 
@@ -58,6 +61,7 @@ class DeviceLogController extends Controller
 
 
 
+
     public function showRiwayat(Request $request)
     {
         $user = Auth::user();
@@ -69,6 +73,8 @@ class DeviceLogController extends Controller
 
         $firebase = new FirebaseService($device->firebase_url, $device->secret);
         $historyRaw = $firebase->get('Riwayat') ?? [];
+        $flowSensor = $firebase->get('flowSensor') ?? [];
+        // dd('flowSensor', $flowSensor);
 
         return view('dashboard.water-usage', [
             'history' => $historyRaw,

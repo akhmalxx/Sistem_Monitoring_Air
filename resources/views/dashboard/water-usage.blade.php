@@ -119,9 +119,10 @@
                                     <div class="card-header">
                                         <h4>Grafik Pemakaian Air (Real-Time)</h4>
                                     </div>
-                                    <div class="card-body">
-                                        {{-- <canvas id="MonthlyChart" height="80"></canvas> --}}
+                                    <div class="card-body" style="height: 300px;">
+                                        <canvas id="realtimeChart"></canvas>
                                     </div>
+
                                 </div>
                             </div>
                         </div>
@@ -264,6 +265,135 @@
                 updateChart(year, month);
             });
 
+        });
+    </script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const totalMLDisplay = document.getElementById('totalML');
+            const ctx = document.getElementById('realtimeChart')?.getContext('2d');
+            const deviceSelect = document.getElementById('deviceSelect');
+
+            if (!ctx) {
+                console.error('Elemen <canvas id="realtimeChart"> tidak ditemukan.');
+                return;
+            }
+
+            const chartData = {
+                labels: [],
+                datasets: [{
+                    label: 'Total Air (mL)',
+                    data: [],
+                    borderColor: 'rgba(40, 167, 69, 1)', // green
+                    backgroundColor: 'rgba(40, 167, 69, 0.1)',
+                    fill: true,
+                    tension: 0.3,
+                    pointRadius: 3,
+                    pointBackgroundColor: '#28a745'
+                }]
+            };
+
+            const totalChart = new Chart(ctx, {
+                type: 'line',
+                data: chartData,
+                options: {
+                    responsive: true,
+                    animation: false,
+                    maintainAspectRatio: false,
+                    scales: {
+                        x: {
+                            grid: {
+                                drawTicks: true,
+                                display: true,
+                                drawOnChartArea: true,
+                                color: '#ddd'
+                            },
+                            ticks: {
+                                autoSkip: false,
+                                maxRotation: 45,
+                                minRotation: 0
+                            },
+                            title: {
+                                display: true,
+                                text: 'Waktu'
+                            }
+                        },
+                        y: {
+                            beginAtZero: true,
+                            min: 0,
+                            suggestedMax: 1000,
+                            ticks: {
+                                stepSize: 100
+                            },
+                            grid: {
+                                drawBorder: true,
+                                color: '#ddd'
+                            },
+                            title: {
+                                display: true,
+                                text: 'mL'
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            display: true
+                        },
+                        tooltip: {
+                            mode: 'index',
+                            intersect: false
+                        }
+                    }
+                }
+            });
+
+            let lastTotalML = null;
+
+            function fetchAndUpdateTotalML() {
+                const isUser = !deviceSelect;
+                const endpoint = isUser ?
+                    '/device/realtime-data' :
+                    `/device/realtime-data/${deviceSelect.value}`;
+
+                fetch(endpoint)
+                    .then(response => response.json())
+                    .then(data => {
+                        const totalML = parseFloat(data.totalML || 0);
+
+                        if (totalMLDisplay) {
+                            totalMLDisplay.textContent = totalML.toFixed(0);
+                        }
+
+                        if (totalML !== lastTotalML) {
+                            const now = new Date().toLocaleTimeString();
+
+                            if (chartData.labels.length >= 10) {
+                                chartData.labels.shift();
+                                chartData.datasets[0].data.shift();
+                            }
+
+                            chartData.labels.push(now);
+                            chartData.datasets[0].data.push(totalML);
+                            totalChart.update();
+
+                            lastTotalML = totalML;
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Gagal fetch data:', error);
+                    });
+            }
+
+            // Inisialisasi polling
+            fetchAndUpdateTotalML();
+            setInterval(fetchAndUpdateTotalML, 2000);
+
+            // Ganti device (hanya berlaku untuk admin yang punya dropdown)
+            if (deviceSelect) {
+                deviceSelect.addEventListener('change', function() {
+                    window.location.href = `?device_id=${this.value}`;
+                });
+            }
         });
     </script>
 @endpush

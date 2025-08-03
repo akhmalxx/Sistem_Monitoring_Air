@@ -69,9 +69,20 @@
                             </div>
 
                             <div class="card-body flex-grow-1">
-                                <canvas id="realtimeChart" height="100"></canvas>
+                                {{-- <canvas id="realtimeChart" height="100"></canvas> --}}
                             </div>
                         </div>
+                    </div>
+                </div>
+
+                <div class="card w-100 d-flex flex-column">
+                    <div class="card-header">
+                        <h4>Grafik Pemakaian Air Realtime</h4>
+
+                    </div>
+
+                    <div class="card-body flex-grow-1">
+                        <canvas id="realtimeChart" height="500"></canvas>
                     </div>
                 </div>
 
@@ -242,6 +253,17 @@
                     maintainAspectRatio: false,
                     scales: {
                         x: {
+                            grid: {
+                                drawTicks: true,
+                                display: true,
+                                drawOnChartArea: true,
+                                color: '#ddd'
+                            },
+                            ticks: {
+                                autoSkip: false,
+                                maxRotation: 45,
+                                minRotation: 0
+                            },
                             title: {
                                 display: true,
                                 text: 'Waktu'
@@ -249,6 +271,15 @@
                         },
                         y: {
                             beginAtZero: true,
+                            min: 0,
+                            suggestedMax: 1000, // default s/d 1000, tetapi bisa naik otomatis
+                            ticks: {
+                                stepSize: 100 // biar 10 grid kalau 0-1000
+                            },
+                            grid: {
+                                drawBorder: true,
+                                color: '#ddd'
+                            },
                             title: {
                                 display: true,
                                 text: 'mL'
@@ -265,6 +296,7 @@
                         }
                     }
                 }
+
             });
 
             let currentDeviceId = deviceSelect?.value;

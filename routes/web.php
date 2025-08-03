@@ -35,6 +35,10 @@ Route::post('/register', [LoginController::class, 'register']);
 Route::post('/login', [LoginController::class, 'login'])->name('login');
 Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
 
+Route::middleware(['auth'])->group(function () {
+    Route::get('/device/realtime-data/{id?}', [DeviceLogController::class, 'getRealtimeData']);
+});
+
 Route::middleware(['auth', 'role:User,SuperAdmin'])->group(function () {
     Route::get('/dashboard', function () {
         return view('dashboard.dashboard', ['type_menu' => 'dashboard']);
@@ -55,7 +59,6 @@ Route::middleware(['auth', 'role:Admin,SuperAdmin'])->group(function () {
 
 // Route debug
 Route::get('/sensor', [SensorController::class, 'index']);
-Route::get('/device/realtime-data/{id}', [DeviceLogController::class, 'getRealtimeData']);
 
 
 Route::get('/debug/firebase', function () {
@@ -63,9 +66,8 @@ Route::get('/debug/firebase', function () {
 
     $flow = $firebase->get('flowSensor/flowRate');
     $total = $firebase->get('flowSensor/totalML');
-    $riwayat = $firebase->get('Riwayat'); // <--- ubah path di sini
+    $riwayat = $firebase->get('Riwayat');
 
-    // Optional: urutkan berdasarkan tanggal terbaru
     if (is_array($riwayat)) {
         krsort($riwayat);
     }

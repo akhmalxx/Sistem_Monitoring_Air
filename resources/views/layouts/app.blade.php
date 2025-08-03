@@ -38,7 +38,6 @@
     {{-- <script src="{{ asset('js/page/modules-chartjs.js') }}"></script> --}}
     <!-- IziToast CSS -->
 
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/izitoast/dist/css/iziToast.min.css">
 
 </head>
 
@@ -80,6 +79,9 @@
     <!-- Template JS File -->
     <script src="{{ asset('js/scripts.js') }}"></script>
     <script src="{{ asset('js/custom.js') }}"></script>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/izitoast/dist/css/iziToast.min.css">
+
 
     <!-- IziToast JS -->
     <script src="https://cdn.jsdelivr.net/npm/izitoast/dist/js/iziToast.min.js"></script>

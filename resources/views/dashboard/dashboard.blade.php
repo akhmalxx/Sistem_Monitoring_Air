@@ -48,10 +48,21 @@
                                 <h2>Welcome, {{ Auth::user()->nama ?? Auth::user()->name }} !</h2>
                                 <p class="lead">Sistem Monitoring Air</p>
                                 <div class="mt-4">
-                                    <a href="/water-usage" class="btn btn-outline-white btn-lg btn-icon icon-left"><i
-                                            class="fas fa-water"></i>
-                                        CEK METERAN AIR</a>
+                                    @if (auth()->user()->device)
+                                        {{-- Jika user punya device, tombol langsung menuju halaman --}}
+                                        <a href="/water-usage" class="btn btn-outline-white btn-lg btn-icon icon-left">
+                                            <i class="fas fa-water"></i> CEK METERAN AIR
+                                        </a>
+                                    @else
+                                        {{-- Jika user tidak punya device, tombol jalankan aksi swal-5 --}}
+                                        <a href="#" class="btn btn-outline-white btn-lg btn-icon icon-left"
+                                            id="swal-5">
+                                            <i class="fas fa-water"></i> CEK METERAN AIR
+                                        </a>
+                                    @endif
                                 </div>
+
+                                {{-- <a class="btn btn-outline-white" id="swal-5">tes</a> --}}
                             </div>
                         </div>
                     </div>
@@ -127,8 +138,12 @@
 
 @push('scripts')
     <!-- JS Libraies -->
-    <script src="{{ asset('library/chart.js/dist/Chart.min.js') }}"></script>
+    {{-- <script src="{{ asset('library/chart.js/dist/Chart.min.js') }}"></script>
 
     <!-- Page Specific JS File -->
-    <script src="{{ asset('js/page/modules-chartjs.js') }}"></script>
+    <script src="{{ asset('js/page/modules-chartjs.js') }}"></script> --}}
+    <script src="{{ asset('library/sweetalert/dist/sweetalert.min.js') }}"></script>
+
+    <!-- Page Specific JS File -->
+    <script src="{{ asset('js/page/modules-sweetalert.js') }}"></script>
 @endpush
