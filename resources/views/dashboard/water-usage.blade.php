@@ -414,7 +414,7 @@
                             min: 0,
                             suggestedMax: 1000,
                             ticks: {
-                                stepSize: 100
+                                stepSize: 200,
                             },
                             grid: {
                                 drawBorder: true,

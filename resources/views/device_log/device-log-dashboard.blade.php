@@ -326,7 +326,7 @@
                             min: 0,
                             suggestedMax: 1000, // default s/d 1000, tetapi bisa naik otomatis
                             ticks: {
-                                stepSize: 100 // biar 10 grid kalau 0-1000
+                                stepSize: 200 // biar 10 grid kalau 0-1000
                             },
                             grid: {
                                 drawBorder: true,
