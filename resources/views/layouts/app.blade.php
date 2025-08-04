@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no" name="viewport">
-    <title>@yield('title') &mdash; Stisla</title>
+    <title>@yield('title') &mdash; Sistem Monitoring Air</title>
 
     <!-- General CSS Files -->
     <link rel="stylesheet" href="{{ asset('library/bootstrap/dist/css/bootstrap.min.css') }}">
@@ -67,6 +67,8 @@
     <script src="{{ asset('library/jquery.nicescroll/dist/jquery.nicescroll.min.js') }}"></script>
     <script src="{{ asset('library/moment/min/moment.min.js') }}"></script>
     <script src="{{ asset('js/stisla.js') }}"></script>
+    <!-- SweetAlert -->
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 
     {{-- custom --}}
     <script src="{{ asset('library/chart.js/dist/Chart.min.js') }}"></script>
@@ -119,6 +121,47 @@
             });
         @endif
     </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            $('.btn-hapus').on('click', function(e) {
+                e.preventDefault();
+
+                const form = $(this).closest('form');
+
+                swal({
+                    title: 'Yakin ingin menghapus?',
+                    text: 'Data yang dihapus tidak dapat dikembalikan!',
+                    icon: 'warning',
+                    buttons: {
+                        cancel: {
+                            text: "Batal",
+                            visible: true,
+                        },
+                        confirm: {
+                            text: "Hapus",
+                            visible: true,
+                        }
+                    },
+                    dangerMode: true,
+                }).then((willDelete) => {
+                    if (willDelete) {
+                        form.submit();
+                    }
+                });
+
+                // Tambahkan styling Bootstrap (DOM ready)
+                setTimeout(() => {
+                    const swalButtons = document.querySelectorAll('.swal-button');
+                    if (swalButtons.length === 2) {
+                        swalButtons[0].classList.add('btn', 'btn-secondary'); // cancel
+                        swalButtons[1].classList.add('btn', 'btn-primary'); // confirm
+                    }
+                }, 100);
+
+            });
+        });
+    </script>
+
     <script>
         @if ($errors->any())
             @foreach ($errors->all() as $error)

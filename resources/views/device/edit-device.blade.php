@@ -17,7 +17,7 @@
         </section>
         <div class="row">
             <div class="col-12">
-                <div class="card">
+                <div class="card card-primary">
                     <form action="{{ route('device-list.update', $device) }}" method="POST" enctype="multipart/form-data">
                         @csrf
                         @method('PUT')

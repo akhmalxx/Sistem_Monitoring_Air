@@ -17,8 +17,8 @@
             <div class="col-12">
                 <div class="row d-flex align-items-stretch">
                     <!-- Card Kiri -->
-                    <div class="col-md-4 mb-2 d-flex">
-                        <div class="card w-100 d-flex flex-column">
+                    <div class="col-md-6 mb-2 d-flex">
+                        <div class="card card-primary w-100 d-flex flex-column">
                             <div class="card-header">
                                 <h4>Pilih Device dan Bulan untuk melihat pemakaian air</h4>
                             </div>
@@ -62,20 +62,24 @@
                     </div>
 
                     <!-- Card Chart -->
-                    <div class="col-md-8 mb-2 d-flex">
-                        <div class="card w-100 d-flex flex-column">
+                    <div class="col-md-6 mb-2 d-flex">
+                        <div class="card card-primary w-100 d-flex flex-column">
                             <div class="card-header">
-                                <h4>Grafik Pemakaian Air Realtime</h4>
+                                <h4>Data Pemakaian Air</h4>
                             </div>
 
                             <div class="card-body flex-grow-1">
-                                {{-- <canvas id="realtimeChart" height="100"></canvas> --}}
+                                @if ($device && $device->user)
+                                    <p>Nama Pelanggan : {{ $device->user->username }}</p>
+                                @else
+                                    <p>Nama Pelanggan : -</p>
+                                @endif
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <div class="card w-100 d-flex flex-column">
+                <div class="card card-success w-100 d-flex flex-column">
                     <div class="card-header">
                         <h4>Grafik Pemakaian Air Realtime</h4>
 
@@ -86,7 +90,7 @@
                     </div>
                 </div>
 
-                <div class="card w-100 d-flex flex-column">
+                <div class="card card-info w-100 d-flex flex-column">
                     <div class="card-header">
                         <h4>Grafik Pemakaian Air <span id="selectedMonthLabel"></span></h4>
                     </div>

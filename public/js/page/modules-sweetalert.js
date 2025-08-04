@@ -16,7 +16,17 @@ $("#swal-4").click(function () {
     swal("Good Job", "You clicked the button!", "info");
 });
 
-$("#swal-5").click(function () {
+$("#swal-5").click(function (e) {
+    e.preventDefault(); //
+    swal(
+        "Device Anda Belum Terdaftar",
+        "Admin akan segera mendaftarkan device anda!",
+        "error"
+    );
+});
+
+$("#swal-52").click(function (e) {
+    e.preventDefault(); //
     swal(
         "Device Anda Belum Terdaftar",
         "Admin akan segera mendaftarkan device anda!",

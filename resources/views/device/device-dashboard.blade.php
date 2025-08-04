@@ -14,7 +14,7 @@
             </div>
             <div class="section-body">
                 {{-- <div class="col"> --}}
-                <div class="card">
+                <div class="card card-primary">
                     <div class="card-header">
                         <div>
                             <a href="{{ route('device-list.create') }}" class="btn btn-primary">+ Tambah Device</a>
@@ -50,10 +50,9 @@
                                                     <form action="{{ route('device-list.destroy', $device->id) }}"
                                                         class="d-inline-block" method="POST">
                                                         @csrf
-                                                        @method('delete')
-                                                        <button type="submit" class="btn btn-action btn-danger"
-                                                            data-toggle="tooltip" title="Hapus"
-                                                            onclick="return confirm('Anda yakin ingin menghapus data?')">
+                                                        @method('DELETE')
+                                                        <button type="button" class="btn btn-action btn-danger btn-hapus"
+                                                            title="Hapus">
                                                             <i class="fas fa-trash"></i>
                                                         </button>
                                                     </form>

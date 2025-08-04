@@ -14,9 +14,16 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link " href="{{ url('/water-usage') }}">
-                    <i class="fas fa-money-check"> </i> Cek Meteran Air
-                </a>
+                @if (auth()->user()->device)
+                    <a class="nav-link " href="{{ url('/water-usage') }}">
+                        <i class="fas fa-money-check"> </i> Cek Meteran Air
+                    </a>
+                @else
+                    {{-- Jika user tidak punya device, tombol jalankan aksi swal-5 --}}
+                    <a href="#" class="nav-link" id="swal-52">
+                        <i class="fas fa-water"> </i> Cek Meteran Air
+                    </a>
+                @endif
             </li>
         </ul>
         <ul class="navbar-nav ml-auto">

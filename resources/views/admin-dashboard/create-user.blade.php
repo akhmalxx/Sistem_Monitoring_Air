@@ -17,7 +17,7 @@
         </section>
         <div class="row">
             <div class="col-12">
-                <div class="card">
+                <div class="card card-primary">
                     <form action="{{ route('user-management.store') }}" method="POST" enctype="multipart/form-data">
                         @csrf
                         <div class="card-body">

@@ -1,6 +1,6 @@
 @extends('layouts.user-app')
 
-@section('title', 'Blank Page')
+@section('title', 'Dashboard')
 
 @push('style')
     <style>
@@ -67,7 +67,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="card">
+                <div class="card card-primary">
                     <div class="card-header text-primary">
                         <h3>Tentang</h3>
                     </div>
@@ -95,7 +95,7 @@
                 <div class="row justify-content-center">
                     <!-- Informasi Tagihan Air -->
                     <div class="col-md-3">
-                        <div class="card shadow-sm border-0 p-4">
+                        <div class="card card-primary shadow-sm  p-4">
                             <div class="text-center text-primary mb-3">
                                 <i class="fas fa-calculator" style="font-size: 40px;"></i>
                             </div>
@@ -106,32 +106,31 @@
 
                     <!-- Call Center -->
                     <div class="col-md-3">
-                        <div class="card shadow-sm border-0 p-4">
+                        <div class="card card-primary shadow-sm  p-4">
                             <div class="text-center text-primary mb-3">
                                 <i class="fas fa-headphones" style="font-size: 40px;"></i>
                             </div>
                             <h5 class="text-primary font-weight-bold" style="font-size: 24px;">Call Center</h5>
-                            <p class="text-muted">Hubungi Call Center kami di<br>+62 878-0562-2615</p>
+                            <p class="text-muted">Hubungi Call Center kami di<br><a href="https://wa.me/6287805622615"
+                                    target="_blank">+62
+                                    878-0562-2615</a></p>
                         </div>
                     </div>
 
                     <!-- Hubungi Kami -->
                     <div class="col-md-3">
-                        <div class="card shadow-sm border-0 p-4">
+                        <div class="card card-primary shadow-sm  p-4">
                             <div class="text-center text-primary mb-3">
                                 <i class="fab fa-whatsapp fa-9x" style="font-size: 40px;"></i>
                             </div>
                             <h5 class="text-primary font-weight-bold" style="font-size: 24px;">Hubungi Kami</h5>
-                            <p class="text-muted">Whatsapp pada nomor<br>+62 812-5620-1902</p>
+                            <p class="text-muted">Whatsapp pada nomor<br><a href="https://wa.me/6281256201902"
+                                    target="_blank">+62
+                                    812-5620-1902</a></p>
                         </div>
                     </div>
                 </div>
             </div>
-
-
-
-
-
         </section>
     </div>
 @endsection
@@ -142,8 +141,8 @@
 
     <!-- Page Specific JS File -->
     <script src="{{ asset('js/page/modules-chartjs.js') }}"></script> --}}
-    <script src="{{ asset('library/sweetalert/dist/sweetalert.min.js') }}"></script>
+    {{-- <script src="{{ asset('library/sweetalert/dist/sweetalert.min.js') }}"></script>
 
     <!-- Page Specific JS File -->
-    <script src="{{ asset('js/page/modules-sweetalert.js') }}"></script>
+    <script src="{{ asset('js/page/modules-sweetalert.js') }}"></script> --}}
 @endpush
