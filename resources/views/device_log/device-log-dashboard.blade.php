@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Blank Page')
+@section('title', 'Device Log')
 
 @push('style')
     <!-- CSS Libraries -->
@@ -68,12 +68,28 @@
                                 <h4>Data Pemakaian Air</h4>
                             </div>
 
-                            <div class="card-body flex-grow-1">
-                                @if ($device && $device->user)
-                                    <p>Nama Pelanggan : {{ $device->user->username }}</p>
-                                @else
-                                    <p>Nama Pelanggan : -</p>
-                                @endif
+                            <div class="card-body">
+                                <div class="table-responsive mt-4">
+                                    <table class="table table-bordered" id="detailTagihanTable">
+                                        <thead>
+                                            <tr>
+                                                <th>Tanggal</th>
+                                                <th>Pemakaian (mL)</th>
+                                                <th>Tagihan (Rp)</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <!-- Data akan dimasukkan lewat JavaScript -->
+                                        </tbody>
+                                        <tfoot>
+                                            <tr>
+                                                <th colspan="2" class="text-right">Total Tagihan</th>
+                                                <th id="totalTagihanTabel">Rp. 0</th>
+                                            </tr>
+                                        </tfoot>
+                                    </table>
+                                </div>
+
                             </div>
                         </div>
                     </div>
@@ -146,8 +162,38 @@
                     const [db, mb, yb] = b.split('-').map(Number);
                     return new Date(ya, ma - 1, da) - new Date(yb, mb - 1, db);
                 });
+
                 const values = orderedKeys.map(k => fullDateMap[k]);
 
+                // 🧠 Isi tabel hanya jika pemakaian > 0
+                const tableBody = document.querySelector('#detailTagihanTable tbody');
+                tableBody.innerHTML = '';
+
+                let totalTagihan = 0;
+
+                orderedKeys.forEach((key) => {
+                    const ml = fullDateMap[key];
+                    if (ml > 0) {
+                        const tagihan = ml * 20;
+                        totalTagihan += tagihan;
+
+                        const [day, mon, yr] = key.split('-');
+                        const tanggal = `${day}-${mon}-${yr}`;
+
+                        const row = document.createElement('tr');
+                        row.innerHTML = `
+                        <td>${tanggal}</td>
+                        <td>${ml.toLocaleString('id-ID')} mL</td>
+                        <td>Rp ${tagihan.toLocaleString('id-ID')}</td>
+                    `;
+                        tableBody.appendChild(row);
+                    }
+                });
+
+                const totalTagihanTabel = document.getElementById('totalTagihanTabel');
+                if (totalTagihanTabel) {
+                    totalTagihanTabel.textContent = `Rp ${totalTagihan.toLocaleString('id-ID')}`;
+                }
 
                 if (chart) chart.destroy();
 
@@ -196,6 +242,7 @@
                         }
                     }
                 });
+
                 const selectedMonthLabel = document.getElementById('selectedMonthLabel');
                 if (selectedMonthLabel) {
                     const monthName = new Date(`${year}-${month}-01`).toLocaleString('default', {
@@ -204,10 +251,9 @@
                     });
                     selectedMonthLabel.textContent = monthName;
                 }
-
             }
 
-            // Jalankan chart pertama kali
+            // Inisialisasi chart saat halaman dimuat
             const [initYear, initMonth] = monthInput.value.split('-');
             updateChart(initYear, initMonth);
 
@@ -218,6 +264,8 @@
             });
         });
     </script>
+
+
 
 
     {{-- realtime graph --}}

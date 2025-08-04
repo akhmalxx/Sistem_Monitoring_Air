@@ -41,7 +41,7 @@
                 <h1>Monitoring Pemakaian dan Tagihan Air</h1>
             </div>
 
-            <div class="card">
+            <div class="card card-primary">
                 <div class="card-header">
                     <h4>Cek Pemakaian dan Tagihan Air</h4>
                     <div class="card-header-action">
@@ -94,12 +94,12 @@
                 </div>
             </div>
 
-            <div class="card">
+            <div class="card card-primary">
                 <div class="card-header">
                     <h4>Cek Pemakaian Real-Time</h4>
                     <div class="card-header-action">
-                        <a data-collapse="#mycard-collapse-2" class="btn btn-icon btn-info" href="#"><i
-                                class="fas fa-minus"></i></a>
+                        {{-- <a data-collapse="#mycard-collapse-2" class="btn btn-icon btn-info" href="#"><i
+                                class="fas fa-minus"></i></a> --}}
                     </div>
                 </div>
                 <div class="collapse show" id="mycard-collapse-2">

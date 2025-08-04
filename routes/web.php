@@ -35,9 +35,6 @@ Route::post('/register', [LoginController::class, 'register']);
 Route::post('/login', [LoginController::class, 'login'])->name('login');
 Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
 
-Route::middleware(['auth'])->group(function () {
-    Route::get('/device/realtime-data/{id?}', [DeviceLogController::class, 'getRealtimeData']);
-});
 
 Route::middleware(['auth', 'role:User,SuperAdmin'])->group(function () {
     Route::get('/dashboard', function () {
@@ -55,6 +52,10 @@ Route::middleware(['auth', 'role:Admin,SuperAdmin'])->group(function () {
     ]);
     Route::get('/device-log', [DeviceLogController::class, 'index'])->name('device.log');
     Route::get('/select-device', [DeviceController::class, 'selectFirebase'])->name('device.select');
+});
+
+Route::middleware(['auth'])->group(function () {
+    Route::get('/device/realtime-data/{id?}', [DeviceLogController::class, 'getRealtimeData']);
 });
 
 // Route debug
